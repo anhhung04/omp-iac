@@ -1,0 +1,14 @@
+config:
+  aws:region: us-east-1
+
+  # Explicit service endpoints. Every modern pulumi-aws SDK also honours
+  # AWS_ENDPOINT_URL, so this block is the belt to that braces: keep both and a
+  # provider upgrade cannot silently start talking to real AWS.
+  #
+  # Shown here for reference; set it with:
+  #   pulumi config set aws:endpoints '[{"s3":"http://localhost.floci.io:4566"}]'
+  #
+  # With iac_pulumi, prefer the environment route so nothing is persisted:
+  #   iac_pulumi action=preview localCloud=floci-aws
+  #   iac_pulumi action=config configOp=set configKey=aws:endpoints \
+  #     configValue='[{"s3":"http://localhost.floci.io:4566"}]' confirm=true

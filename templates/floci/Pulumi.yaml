@@ -1,0 +1,7 @@
+name: iac-floci-demo
+runtime: nodejs
+description: Pulumi stack targeting the Floci AWS emulator.
+
+# Local-cloud state must not go to Pulumi Cloud:
+#   pulumi login file:///tmp/pulumi-floci
+# or pass backend=... to `iac_pulumi action=login`.

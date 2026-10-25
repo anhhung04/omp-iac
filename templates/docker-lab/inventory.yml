@@ -1,0 +1,23 @@
+---
+# Static inventory for the OpenTofu Docker lab.
+# The `docker` connection plugin talks to the Docker socket directly, so targets
+# need python3 inside the container but no SSH daemon.
+#
+#   ansible-inventory -i inventory.yml --graph
+#   ansible-playbook  -i inventory.yml site.yml --check --diff
+#
+# The host keys must match the container names produced by main.tf
+# ("<project_name>-shell" and "<project_name>-web", default project "iac-lab").
+
+lab:
+  hosts:
+    iac-lab-shell:
+      ansible_connection: docker
+      ansible_python_interpreter: /usr/bin/python3
+    iac-lab-web:
+      ansible_connection: docker
+      ansible_python_interpreter: /usr/bin/python3
+
+  vars:
+    ansible_user: root
+    iac_mode: local-lab

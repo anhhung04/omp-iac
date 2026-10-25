@@ -1,0 +1,27 @@
+---
+# Smoke playbook for the local Docker lab. Safe to --check against any lab:
+# every task is idempotent and all file writes are inside the container.
+- name: Verify the local container lab
+  hosts: lab
+  gather_facts: false
+
+  tasks:
+    - name: Confirm python is usable inside the container
+      ansible.builtin.raw: python3 --version
+      register: python_version
+      changed_when: false
+
+    - name: Report the interpreter
+      ansible.builtin.debug:
+        msg: "{{ inventory_hostname }} runs {{ python_version.stdout | default('unknown') }}"
+
+    - name: Ensure the lab marker file exists
+      ansible.builtin.copy:
+        content: "iac-mode=local-lab\n"
+        dest: /etc/iac-lab
+        mode: "0644"
+
+    - name: Read it back
+      ansible.builtin.command: cat /etc/iac-lab
+      register: marker
+      changed_when: false
